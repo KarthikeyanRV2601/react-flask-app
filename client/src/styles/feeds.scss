@@ -79,6 +79,7 @@
         width: 60%;
         height: 100%;
         @include flexColumn();
+        position: relative;
         .WrapperDiv{
             align-self:flex-end;
             width: 20%;
@@ -93,6 +94,7 @@
             &:hover{
                 transform: scale(1.05);
             }
+           
         }
         }
         
@@ -214,7 +216,7 @@
                     .Thumbnail{
                         width: 100%;
                         height: 100%;
-
+                        object-fit: cover;
                     }
                     }
                     .Description{
@@ -232,6 +234,7 @@
                             height: 40px;
                             // background: red;
                             @include flexRow();
+                            justify-content: space-around;
                             img{
                                 width: 24px;
                                 height: 24px;
@@ -333,4 +336,55 @@
 
     }
 }
+}
+
+
+
+
+.Menu{
+    width: 200px;
+    height: 60px;
+    position: absolute;
+    background: #353535;
+    @include flexColumn();
+    top: 120%;
+    border-radius: 20px;
+    
+    .Option{
+        width: 100%;
+        height: 100%;
+        @include flexColumn();
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
+        border: none;
+        border-radius: 20px;
+        &:hover{
+            background: white;
+            color: #353535;
+            border: 1px solid #353535;
+            border-radius: 20px;
+            
+        }
+    }
+    display: none;
+}
+.AnimateMenu{
+    animation: 0.2s animate ease-in-out forwards;
+    display: inherit;
+    @keyframes animate {
+        0%{
+            right: 0%;
+            opacity: 0;
+        }
+        100%{
+            right: 2%;
+            opacity: 1;
+        }
+        
+    }
+}
+.loading{
+    width: 100px;
+
 }

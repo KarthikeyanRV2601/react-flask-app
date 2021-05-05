@@ -26,7 +26,9 @@ const Form= ()=>{
         if(result.data.status=="success")
         {
             // window.location.href='/feeds';
+            window.localStorage.setItem("username", formData.user_name);
             history.push('/feeds')
+            
         }
         
         // login(user_name, password)

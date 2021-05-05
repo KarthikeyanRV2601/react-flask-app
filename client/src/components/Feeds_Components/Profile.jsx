@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from'react-dom';
 
-export const Profile=()=>{
+export const Profile=({currentUserDp})=>{
 
-    let user={
-        user_name:"karthi"
-    }
     var Levels=[
+
         "Unrepentant slacker",
         "Persistent slacker",
         "Recovering slacker",
@@ -24,20 +22,21 @@ export const Profile=()=>{
         "Critical asset",
         "Habitual workaholic",
         "Determined workaholic",
-        "Die-hard workaholic]",
-        "GOD"]
+        "Die-hard workaholic",
+        "GOD"
+    ]
     
     
     var coins=1801;
     var level=Levels[parseInt(coins/100)];
     
-
+    var CurrentUser=window.localStorage.getItem("username")
 
     return(
         <div className="Profile">
             <div className="ProfilePic">
-                <p>{user ? user.user_name : ""}</p>
-                <img className="Avatar" src={`https://randomuser.me/api/portraits/men/${1+45}.jpg`}/>
+                <p>{CurrentUser}</p>
+                <img className="Avatar" src={currentUserDp[CurrentUser]}/>
                 
             </div>
             <div className="Assets">
@@ -48,14 +47,9 @@ export const Profile=()=>{
                     <p>Slacker</p>
                 </div>
             </div>
-            <div className="TasksAndRequests">
+            <div className="TasksAndReq uests">
                 
-                <div className="Tasks">
-                    Recent tasks
-                </div>
-                <div className="Requests">
-                    Recent requests
-                </div>
+               
             </div>
         </div>
     )

@@ -5,16 +5,15 @@ import {CommentSection} from './CommentSection';
 import StreakIcon from '../../media/icons/streak.svg';
 import PatIcon from '../../media/icons/patIcon.svg';
 
-
 export const Feed=(props)=>{
 
-
-    var dpUrl=`https://randomuser.me/api/portraits/men/${Math.floor((Math.random() * 50) + 1)+45}.jpg`;
 
 
     const [ pat, setPat ] = useState(true)
     const [ numberPats, setNumberPats] = useState(props.pats)
     const [ commentToggle, setCommentToggle ] = useState(false)
+    
+    var dpUrl=props.user_name in props.currentUserDp?props.currentUserDp[props.user_name]:`https://randomuser.me/api/portraits/men/${Math.floor((Math.random() * 50) + 1)+45}.jpg`;
 
     const patPost = async () =>
     {
@@ -50,7 +49,7 @@ export const Feed=(props)=>{
             </div>
             <h2>{props.task_name}</h2>
             <div className="ThumbnailWrapper">
-                <img className="Thumbnail" src={`https://picsum.photos/id/${Math.floor((Math.random() * 250) + 1)}/600/300`} />
+                <img className="Thumbnail" src={props.task_thumbnail} />
             </div>
             <p className="Description">
                 {props.body}
@@ -63,10 +62,6 @@ export const Feed=(props)=>{
                     </div>
                 </div>
                 <div className="ActionSet">
-                    {/* <div className="StreakCount">
-                        <img src={StreakIcon}/>
-                        {props.streak} Streak
-                    </div> */}
                     <div className="CommentButton" onClick={e=>setCommentToggle(!commentToggle)}>
                         0 Comments
                     </div>

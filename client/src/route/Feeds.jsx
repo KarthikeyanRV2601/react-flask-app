@@ -3,53 +3,20 @@ import {Feed} from '../components/Feeds_Components/Feed';
 import {NavBar} from '../components/NavBar';
 import {Profile} from '../components/Feeds_Components/Profile';
 import '../styles/feeds.css';
-
-
-export const Feeds=({})=>{
-    var quotes = [
-        ["You only live once, but if you do it right, once is enough.","Mae West"],
-        ["I am so clever that sometimes I don't understand a single word of what I am saying.","Oscar Wilde"],
-        ["Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.","Albert Einstein"],
-        ["The most beautiful experience we can have is the mysterious. It is the fundamental emotion that stands at the cradle of true art and true science.","Albert Einstein"]
-        ["It is our choices, Harry, that show what we truly are, far more than our abilities.","J.K. Rowling, Harry Potter and the Chamber of Secrets"],
-        ["All men who have turned out worth anything have had the chief hand in their own education.","Walter Scott"],
-        ["Trust yourself. You know more than you think you do.","Benjamin Spock"],
-        ["No one can make you feel inferior without your consent.","Eleanor Roosevelt, This is My Story"],
-        ["To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.","Ralph Waldo Emerson"],
-        ["Twenty years from now you will be more disappointed by the things that you didn't do than by the ones you did do. So throw off the bowlines. Sail away from the safe harbor. Catch the trade winds in your sails. Explore. Dream. Discover.","H. Jackson Brown Jr., P.S. I Love You"]
-        ];
-    var [FeedList, setFeedList] = useState([
+import { Redirect, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import Loading from '../media/icons/loading.svg';
+export const Feeds=()=>{
+    let history = useHistory();
+        if(!window.localStorage.getItem("username"))
         {
-            user_name:"Karthi",
-            task_thumbnail:"",
-            body:quotes[Math.floor((Math.random() * 10) + 1)],
-            pats:2,
-            streak:3,
-            tid:4
-        },{
-            user_name:"Mighil",
-            task_thumbnail:"",
-            body:quotes[Math.floor((Math.random() * 10) + 1)],
-            pats:2,
-            streak:3,
-            tid:4
-        },{
-            user_name:"Kirthi",
-            task_thumbnail:"",
-            body:quotes[Math.floor((Math.random() * 10) + 1)],
-            pats:2,
-            streak:3,
-            tid:4
-        },
-        {
-            user_name:"Likith",
-            task_thumbnail:"",
-            body:quotes[Math.floor((Math.random() * 10) + 1)],
-            pats:2,
-            streak:3,
-            tid:4
-        },
-    ]);
+            history.push('/login')
+           
+        }
+        
+    var names=["Karthi","Mighil","Tanmaay","Rishi","Kirthi","Ashok","Vaibhav","Vishaal","Sanjheevi","Jayesh","Likith"]
+    var [FeedList, setFeedList] = useState([{}]);
+    var [currentUserDp,setcurrentUserDp]=useState({})
     // useEffect(() => {
 
     //     (async () => {
@@ -63,18 +30,38 @@ export const Feeds=({})=>{
     //         }
     //     })()
     // }, [])
+    
+    useEffect(async() => {
+        try{
+            let response=await axios.get('/get_dp');
+            setcurrentUserDp(response.data);
+            response=await axios.get('/feed');
+            setFeedList(response.data);
 
+        }
+        catch(error){
+            console.log(error)
+        }
+    }, [])
 
     return(
         <div className="FeedPage">
             <NavBar/>
             <div className="LeftPanel">
-                <Profile/>
+                <Profile currentUserDp={currentUserDp}/>
             </div>
             <div className="MainPanel">
                 <div className="Feeds">
-                    { FeedList && FeedList.map(task => {
+                    { FeedList.length>1 && FeedList.map(feed => {
+                        let task={
+                            user_name:names[Math.floor((Math.random() * (names.length-1)) + 1)],
+                            task_thumbnail:feed.src,
+                            body:feed.quote,
+                            pats:Math.floor((Math.random() * 100) + 1),
+                            streak:3
+                        }
                          return(
+                            task.body!="" &&
                             <Feed 
                                 user_name={task.user_name}
                                 task_thumbnail={task.task_thumbnail}
@@ -83,9 +70,14 @@ export const Feeds=({})=>{
                                 streak={task.streak}
                                 key={task.tid}
                                 tid={task.tid}
+                                currentUserDp={currentUserDp}
                             />
                          )
                         })
+                    }
+                    {
+                        FeedList&&
+                        <img src={Loading} className="loading"></img>
                     }
                 </div>
             </div>
@@ -95,6 +87,7 @@ export const Feeds=({})=>{
             
         </div>
     )
+    
 }
 
 

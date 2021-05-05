@@ -125,6 +125,7 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  position: relative;
 }
 
 #root .FeedPage header .ProfileLinks .WrapperDiv {
@@ -410,6 +411,8 @@
 #root .FeedPage .MainPanel .Feeds .Feed .ThumbnailWrapper .Thumbnail {
   width: 100%;
   height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 #root .FeedPage .MainPanel .Feeds .Feed .Description {
@@ -448,6 +451,8 @@
       -ms-flex-align: center;
           align-items: center;
   text-align: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 #root .FeedPage .MainPanel .Feeds .Feed .Actions .Pats img {
@@ -654,5 +659,92 @@
 #root .FeedPage .RightPanel {
   width: 16%;
   height: 100%;
+}
+
+.Menu {
+  width: 200px;
+  height: 60px;
+  position: absolute;
+  background: #353535;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  top: 120%;
+  border-radius: 20px;
+  display: none;
+}
+
+.Menu .Option {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  border-radius: 20px;
+}
+
+.Menu .Option:hover {
+  background: white;
+  color: #353535;
+  border: 1px solid #353535;
+  border-radius: 20px;
+}
+
+.AnimateMenu {
+  -webkit-animation: 0.2s animate ease-in-out forwards;
+          animation: 0.2s animate ease-in-out forwards;
+  display: inherit;
+}
+
+@-webkit-keyframes animate {
+  0% {
+    right: 0%;
+    opacity: 0;
+  }
+  100% {
+    right: 2%;
+    opacity: 1;
+  }
+}
+
+@keyframes animate {
+  0% {
+    right: 0%;
+    opacity: 0;
+  }
+  100% {
+    right: 2%;
+    opacity: 1;
+  }
+}
+
+.loading {
+  width: 100px;
 }
 /*# sourceMappingURL=feeds.css.map */

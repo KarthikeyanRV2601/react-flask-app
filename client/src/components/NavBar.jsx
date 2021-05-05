@@ -1,30 +1,40 @@
-import React from 'react';
+import {React,useRef} from 'react';
 import ReactDOM from'react-dom';
 import AddIcon from "../media/icons/add.svg";
 import NotificationIcon from "../media/icons/notification.svg";
 import ProfileIcon from "../media/icons/profile.svg";
 
-
-
 export const NavBar=()=>{
+    const animateRef=useRef(null);
+    var Show_Hide_menu=(e)=>{
+        
+        if(animateRef.current.classList.contains("AnimateMenu"))
+            animateRef.current.classList.remove("AnimateMenu")
+        else
+            animateRef.current.classList.add("AnimateMenu")  
+    }
+    var signout=(e)=>{
+        localStorage.removeItem("username");
+        animateRef.current.classList.remove("AnimateMenu");
+        window.location.reload();
+    }
     return(
         <header>
             <ul className="Links">
             <a href="/feeds" className="Link">
                 Feeds
             </a>
-            <a href="friends.html" className="Link">
+            <a href="/friends" className="Link">
                 Friends
             </a>
-            <a href="/tasks" className="Link">
-                Tasks
-            </a>
+            
         </ul>
             <div className="ProfileLinks">
                 <div className="WrapperDiv">
-                <a href="/new_task"><img className="AddButtonIcon" src={AddIcon}/></a>
-                <a><img className="NotificationIcon" src={NotificationIcon}/></a>
-                <a><img className="ProfileIcon" src={ProfileIcon}/></a>
+                <a onClick={e=>Show_Hide_menu(e)}><img className="ProfileIcon" src={ProfileIcon}/></a>
+                <div className="Menu" ref={animateRef}>
+                    <div className="Option" id="Signout" onClick={e=>signout(e)}>Sign out</div>
+                </div>
             </div>
             </div>
         </header>

@@ -1,38 +1,32 @@
 from flask import Flask, render_template, redirect, url_for, request, jsonify
+from bs4 import BeautifulSoup
+import requests
 import sys
 import pickle
-from utils.utility import minDistance, printSolution
-# from graph import Graph
+from utils.utility import minDistance, printSolution, credentials, userDp
+
+
+
 app = Flask(__name__)
-credentials={
-    "Mighil":"mighil",
-    "Karthi":"karthi",
-    "Likith":"likith",
-    "Tanmaay":"tanmaay",
-    "Vishaal":"vishaal",
-    "Rishi":"rishi",
-    "Sanjheevi":"sanjheevi",
-}
-Username=""
+
 
 with open('data.pkl', 'rb') as input:
     g = pickle.load(input)
 
-# print(g.getFriends("Ass"))
-
-# print(len(g.graph))
-# for x in g.graph.keys():
-#     print(x)
 @app.route('/friends/<string:name>', methods=['GET'])
 def friends(name):
     return jsonify({
         'friends': g.getFriends(name)
     })
 
+@app.route('/get_dp', methods=['GET'])
+def get_dp():
+    return jsonify(userDp)
+
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
-    print(data)
     keys = credentials.keys()
     if data["user_name"] not in keys:
         return jsonify({
@@ -56,6 +50,31 @@ def addFriend():
         return jsonify(data)
     return jsonify({ "msg": "They are already friends"})
 
+@app.route('/feed', methods=['GET'])
+def getFeed():
+    Datas=[]
+    url="https://unsplash.com/s/photos/landscapes"
+    html_doc = requests.get(url).text
+    soup = BeautifulSoup(html_doc,'html.parser')
+    images=soup.find_all('img',{"class":"_2UpQX"})
+    url="https://www.briantracy.com/blog/personal-success/26-motivational-quotes-for-success/"
+    html_doc = requests.get(url).text
+    soup = BeautifulSoup(html_doc,'html.parser')
+    quotes=soup.find_all('h3')
+    for i in range(min(len(images),len(quotes))):
+        temp={}
+        temp['src'] = images[i].get('src')
+        tempText= quotes[i].text[3:].replace("”","")
+        tempText= tempText.replace("“","")
+        if '–' in tempText:
+            tempText=tempText[:tempText.index('–')]
+        temp['quote']=tempText
+        Datas.append(temp)
+
+    
+    return jsonify(Datas)
+
+
 @app.route('/mutual', methods=['POST'])
 def mutual():
     data = request.json
@@ -72,13 +91,9 @@ def mutual():
         queue.append(x)
         parent[x] = -1
         i += 1
-    # print("Parent")
-    # print(parent)
+
     dist[data['src']] = 0 
-    # print("dist")
-    # print(dist) 
-    # print(number_map)
-    # print(dist)
+
 
     while(queue):
 
@@ -91,22 +106,11 @@ def mutual():
                 if(dist[u] + 1) < dist[x]:
                     dist[x] = dist[u] + 1
                     parent[x] = u
-    # print(parent)
+
     friends = printSolution(dist, parent, data['src'])
-    # print(friends)
-    # print(dist)
+
     return jsonify(friends)
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     if request.method == 'POST':
-#         Username = request.form['username']
-        
-#         Password=request.form['password']
-#         if(credentials[Username]==Password):
-#             return render_template('index.html', name=Username) 
-        
-#     return render_template('login.html')
 
 if __name__== '__main__':
     app.run()

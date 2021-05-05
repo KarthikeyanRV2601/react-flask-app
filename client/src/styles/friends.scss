@@ -162,6 +162,7 @@
                 @include flexRow();
                 border-radius: 10px;
                 border: 1px solid #353535;
+                justify-content: space-around;
                 .dp{
                     width: 45px;
                     height: 45px;
@@ -180,6 +181,11 @@
                     background: #353535;
                     color: white;
                     cursor: pointer;
+                }
+                .addFriend{
+                    width: 24px;
+                    height: 24px;
+                    // display: none;
                 }
                 
             }
@@ -209,6 +215,7 @@
                 color: #353535;
             }
             .closeButton{
+                user-select: none;
                 width: 20px;
                 height: 20px;
                 position: absolute;
@@ -319,4 +326,49 @@
     }
     
 }
+}
+
+
+.Menu{
+    width: 200px;
+    height: 60px;
+    position: absolute;
+    background: #353535;
+    @include flexColumn();
+    top: 120%;
+    border-radius: 20px;
+    
+    .Option{
+        width: 100%;
+        height: 100%;
+        @include flexColumn();
+        color: white;
+        cursor: pointer;
+        text-decoration: none;
+        border: none;
+        border-radius: 20px;
+        &:hover{
+            background: white;
+            color: #353535;
+            border: 1px solid #353535;
+            border-radius: 20px;
+            
+        }
+    }
+    display: none;
+}
+.AnimateMenu{
+    animation: 0.2s animate ease-in-out forwards;
+    display: inherit;
+    @keyframes animate {
+        0%{
+            right: 0%;
+            opacity: 0;
+        }
+        100%{
+            right: 2%;
+            opacity: 1;
+        }
+        
+    }
 }

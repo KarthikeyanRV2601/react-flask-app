@@ -7,7 +7,16 @@ import {ResultUser} from '../components/Friends_Components/ResultUser';
 import '../styles/friends.css';
 import axios from 'axios';
 import exit from '../media/icons/exit.svg';
+import { Redirect, useHistory } from 'react-router-dom';
+
 export const Friends=()=>{
+    
+    let history = useHistory();
+    if(!window.localStorage.getItem("username"))
+    {   
+        history.push('/login')
+        window.location.reload();
+    }
 
     var [FriendsList,setList]=useState([])
     var [MyFriendsList,setMyFriendsList]=useState([]);
@@ -17,8 +26,10 @@ export const Friends=()=>{
     var myFriends=useRef(null);
     var Suggestions=useRef(null);
     var [toggleFlag,setFlag]=useState(true);
-    var CurrentUser="Mighil"
+    var CurrentUser=window.localStorage.getItem("username")
     var [Suggestionsdata,setSuggestiondata]=useState({});
+    var [currentUserDp,setcurrentUserDp]=useState({})
+    var [isMyfriend,setisMyfriend]=useState(true)
     var filterSearch=(List,searchKey)=>{
         
         var newList=[...List];
@@ -42,7 +53,7 @@ export const Friends=()=>{
             setGlobalList(tempGlobalList);
         }
     },[Suggestionsdata])
-    // filterSearch(['hell',"hello","yela"],"he");
+
     useEffect(async () => {
         (async () => {
             try {
@@ -53,7 +64,8 @@ export const Friends=()=>{
                     "src":CurrentUser,
                 });
                 setSuggestiondata(suggestiondataTemp.data);
-
+                let response=await axios.get('/get_dp');
+                setcurrentUserDp(response.data);
             }
             catch (error) {
                 console.log(error)
@@ -79,12 +91,14 @@ export const Friends=()=>{
         {
             myFriends.current.className="choice Activechoice";
             Suggestions.current.className="choice";
+            setisMyfriend(true)
             setList(MyFriendsList)
+            
         }
         else{
             myFriends.current.className="choice"
             Suggestions.current.className="choice Activechoice"
-            
+            setisMyfriend(false)
             setList(SuggestionsList);   
         }
     }
@@ -113,7 +127,7 @@ export const Friends=()=>{
             <div className="LeftPanel">
                <div className="Friends">
                 {FriendsList.map(friend=>{
-                        return(<Friend name={friend} degree={null} path={Suggestionsdata[friend]} setpopup={setpopup} setPopupDetails={setPopupDetails}/>)
+                        return(<Friend  setList={setList} name={friend} path={Suggestionsdata[friend]} setpopup={setpopup} setPopupDetails={setPopupDetails} currentUserDp={currentUserDp} isMyfriend={isMyfriend}/>)
                     })}
                 </div> 
             </div>
@@ -122,7 +136,7 @@ export const Friends=()=>{
                 <div className="Path">
                     
                         <div className="wrap">
-                            <h2>mutual friends</h2>
+                            <h2>Mutual connections</h2>
                             <img className="closeButton" src={exit} onClick={e=>HidePopup()} />
                             {popupDetails.map(node=>{
                                 if(node)
@@ -130,7 +144,7 @@ export const Friends=()=>{
                                     return(
                                         <div className="Node">
                                             
-                                            <img className='pic' src={`https://randomuser.me/api/portraits/men/${Math.floor((Math.random() * 50) + 1)+45}.jpg`}/>
+                                            <img className='pic' src={currentUserDp[node]}/>
                                             <div className="text">
                                                 {node}
                                             </div>
