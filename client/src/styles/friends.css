@@ -353,6 +353,10 @@
   height: 24px;
 }
 
+#root .FriendsPage .LeftPanel .Friends .Friend .addFriend:hover path {
+  fill: white;
+}
+
 #root .FriendsPage .Path {
   min-width: 100%;
   height: 100%;

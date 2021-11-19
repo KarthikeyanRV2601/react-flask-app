@@ -6,8 +6,7 @@ export const Friend=({name,path,setpopup,setPopupDetails,currentUserDp,isMyfrien
     if(path)
     {
         // console.log(isMyfriend)
-        path=path.slice(1,path.length)
-        let degree=path.length;
+        let degree=path
         switch(degree)
         {
             case 1:degree="1st"

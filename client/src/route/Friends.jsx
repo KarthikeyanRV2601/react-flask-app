@@ -42,11 +42,11 @@ export const Friends=()=>{
         {    
             let tempList=[]
             let tempGlobalList=[]
-            console.log(Suggestionsdata)
+            // console.log(Suggestionsdata)
             for (let item in Suggestionsdata) {
                 if(item!=CurrentUser)
                 tempGlobalList.push(item);
-                if(Suggestionsdata[item].length>2)
+                if(Suggestionsdata[item]>2)
                 tempList.push(item);
             }
             setSuggestionsList(tempList);
@@ -60,9 +60,11 @@ export const Friends=()=>{
                 var MyFriendsList= await axios.get('/friends/' + CurrentUser);
                 setMyFriendsList(MyFriendsList.data.friends);
                 setList(MyFriendsList.data.friends)
+                // console.log(CurrentUser);
                 var suggestiondataTemp=await axios.post('/mutual',{
-                    "src":CurrentUser,
+                    "name":CurrentUser,
                 });
+
                 setSuggestiondata(suggestiondataTemp.data);
                 let response=await axios.get('/get_dp');
                 setcurrentUserDp(response.data);
@@ -72,13 +74,24 @@ export const Friends=()=>{
             }
             })()
         }, [])
-    var SearchBarChangeHandler=(e)=>{
+    var SearchBarChangeHandler=async(e)=>{
         let CurrentSearch=e.target.value;
         if(CurrentSearch)
         {
+            let response=await axios.post('/autocomplete',{
+                "name":CurrentUser,
+                "searchstring":CurrentSearch
+            });
+            // console.log(response.data)
+
             setFlag(false)
-            let newList=filterSearch(globalList,CurrentSearch);
-            setList(newList)
+            var list=[]
+            let sorted_list=response.data.sort((a,b) => a.closeness - b.closeness);
+            sorted_list.forEach((data)=>{
+                list.push(data.user)
+            })
+            // console.log(list)
+            setList(list)
             return
         }
         else{
@@ -99,6 +112,7 @@ export const Friends=()=>{
             myFriends.current.className="choice"
             Suggestions.current.className="choice Activechoice"
             setisMyfriend(false)
+            console.log({SuggestionsList})
             setList(SuggestionsList);   
         }
     }

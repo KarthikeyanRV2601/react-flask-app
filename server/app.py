@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 with open('data.pkl', 'rb') as input:
     g = pickle.load(input)
+    # friends=pickle.load(input)
 
 @app.route('/friends/<string:name>', methods=['GET'])
 def friends(name):
@@ -56,60 +57,46 @@ def getFeed():
     url="https://unsplash.com/s/photos/landscapes"
     html_doc = requests.get(url).text
     soup = BeautifulSoup(html_doc,'html.parser')
-    images=soup.find_all('img',{"class":"_2UpQX"})
-    url="https://www.briantracy.com/blog/personal-success/26-motivational-quotes-for-success/"
+    images=soup.find_all('img',{"class":"YVj9w"})
+    url="https://theplanetd.com/the-ultimate-travel-quotes-as-chosen-by-you/"
     html_doc = requests.get(url).text
     soup = BeautifulSoup(html_doc,'html.parser')
     quotes=soup.find_all('h3')
+    # print(len(images),len(quotes))
+
     for i in range(min(len(images),len(quotes))):
         temp={}
         temp['src'] = images[i].get('src')
         tempText= quotes[i].text[3:].replace("”","")
         tempText= tempText.replace("“","")
-        if '–' in tempText:
-            tempText=tempText[:tempText.index('–')]
+        if '~' in tempText:
+            tempText=tempText[:tempText.index('~')]
         temp['quote']=tempText
         Datas.append(temp)
-
-    
     return jsonify(Datas)
 
 
 @app.route('/mutual', methods=['POST'])
 def mutual():
     data = request.json
-    number_map = {}
-    i = 0
-    queue = []
-    num_nodes = len(g.graph)
-
-    dist = {}
-    parent = {}
-    for x in g.graph.keys():
-        number_map[i] = x
-        dist[x] = float('inf')
-        queue.append(x)
-        parent[x] = -1
-        i += 1
-
-    dist[data['src']] = 0 
-
-
-    while(queue):
-
-        u = minDistance(dist, queue, number_map)
-        print(u)
-        queue.remove(u)
-
-        for x in g.getFriends(u):
-            if(x in queue):
-                if(dist[u] + 1) < dist[x]:
-                    dist[x] = dist[u] + 1
-                    parent[x] = u
-
-    friends = printSolution(dist, parent, data['src'])
-
+    name=data["name"]
+    print("name",name)
+    friends=g.bfs(name)
     return jsonify(friends)
+
+
+@app.route('/autocomplete', methods=['POST'])
+def autoComplete():
+    data = request.json
+    print(data)
+    name=data["name"]
+    searchstring=data["searchstring"]
+    friends=g.bfs(name)
+    tr=g.friendTrie()
+    autocompleteRecord=tr.autoComplete(name,searchstring,friends)
+
+    return jsonify(autocompleteRecord)
+
 
 
 if __name__== '__main__':

@@ -353,7 +353,7 @@
 
 #root .FeedPage .MainPanel .Feeds .Feed {
   width: 90%;
-  height: 700px;
+  height: 600px;
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   display: -webkit-box;

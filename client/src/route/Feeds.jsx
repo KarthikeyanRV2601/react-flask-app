@@ -11,7 +11,7 @@ export const Feeds=()=>{
         if(!window.localStorage.getItem("username"))
         {
             history.push('/login')
-           
+            
         }
         
     var names=["Karthi","Mighil","Tanmaay","Rishi","Kirthi","Ashok","Vaibhav","Vishaal","Sanjheevi","Jayesh","Likith"]
@@ -36,8 +36,9 @@ export const Feeds=()=>{
             let response=await axios.get('/get_dp');
             setcurrentUserDp(response.data);
             response=await axios.get('/feed');
+            console.log(response)
             setFeedList(response.data);
-
+            console.log(response.data);
         }
         catch(error){
             console.log(error)

@@ -12,7 +12,6 @@ export const Feed=(props)=>{
     const [ pat, setPat ] = useState(true)
     const [ numberPats, setNumberPats] = useState(props.pats)
     const [ commentToggle, setCommentToggle ] = useState(false)
-    
     var dpUrl=props.user_name in props.currentUserDp?props.currentUserDp[props.user_name]:`https://randomuser.me/api/portraits/men/${Math.floor((Math.random() * 50) + 1)+45}.jpg`;
 
     const patPost = async () =>
