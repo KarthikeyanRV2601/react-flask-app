@@ -1,7 +1,6 @@
 from graph import Graph
 import pickle
 
-
 g = Graph()
 g.addEdge("Astra", "Rich")
 g.addEdge("Astra", "Richard")

@@ -30,13 +30,7 @@ export const Friends=()=>{
     var [Suggestionsdata,setSuggestiondata]=useState({});
     var [currentUserDp,setcurrentUserDp]=useState({})
     var [isMyfriend,setisMyfriend]=useState(true)
-    var filterSearch=(List,searchKey)=>{
-        
-        var newList=[...List];
-        newList=newList.filter((name)=>name.toUpperCase().startsWith(searchKey.toUpperCase())||name.toLowerCase().startsWith(searchKey.toLowerCase()));
-
-        return newList;
-    }
+   
     useEffect(()=>{       
         if(Suggestionsdata) 
         {    
@@ -74,13 +68,23 @@ export const Friends=()=>{
             }
             })()
         }, [])
+    function titleCase(str) {
+            var splitStr = str.toLowerCase().split(' ');
+            for (var i = 0; i < splitStr.length; i++) {
+                // You do not need to check if i is larger than splitStr length, as your for does that for you
+                // Assign it back to the array
+                splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1).toLowerCase();     
+            }
+            // Directly return the joined string
+            return splitStr.join(' '); 
+         }
     var SearchBarChangeHandler=async(e)=>{
         let CurrentSearch=e.target.value;
         if(CurrentSearch)
         {
             let response=await axios.post('/autocomplete',{
                 "name":CurrentUser,
-                "searchstring":CurrentSearch
+                "searchstring":titleCase(CurrentSearch)
             });
             // console.log(response.data)
 

@@ -49,16 +49,17 @@ credentials={
 
 userDp={
     "Mighil":"https://randomuser.me/api/portraits/men/19.jpg",
-    "Karthi":"https://randomuser.me/api/portraits/men/33.jpg",
-    "Likith":"https://randomuser.me/api/portraits/men/5.jpg",
-    "Tanmaay":"https://randomuser.me/api/portraits/men/36.jpg",
-    "Vishaal":"https://randomuser.me/api/portraits/men/28.jpg",
-    "Rishi":"https://randomuser.me/api/portraits/men/6.jpg",
-    "Sanjheevi":"https://randomuser.me/api/portraits/men/1.jpg",
-    "Jayesh":"https://randomuser.me/api/portraits/men/55.jpg",
-    "Ramanish":"https://randomuser.me/api/portraits/men/66.jpg",
-    "Aravind":"https://randomuser.me/api/portraits/men/74.jpg",
+    "Astra":"https://randomuser.me/api/portraits/men/33.jpg",
+    "Rich":"https://randomuser.me/api/portraits/men/5.jpg",
+    "Richard":"https://randomuser.me/api/portraits/men/36.jpg",
+    "Rambo":"https://randomuser.me/api/portraits/men/28.jpg",
+    "Adam":"https://randomuser.me/api/portraits/men/6.jpg",
+    "Mighil":"https://randomuser.me/api/portraits/men/1.jpg",
+    "Hareesh":"https://randomuser.me/api/portraits/men/55.jpg",
+    "Rishi":"https://randomuser.me/api/portraits/men/66.jpg",
+    "Aravindh":"https://randomuser.me/api/portraits/men/74.jpg",
     "Ashok":"https://randomuser.me/api/portraits/men/44.jpg",
-    "Vaibhav":"https://randomuser.me/api/portraits/men/24.jpg",
-    "Kirthi":"https://randomuser.me/api/portraits/men/20.jpg"
+    "Jayesh":"https://randomuser.me/api/portraits/men/24.jpg",
+    "Rick":"https://randomuser.me/api/portraits/men/20.jpg",
+    
 }
